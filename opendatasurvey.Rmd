@@ -1472,6 +1472,39 @@ plot_single_choice(
 
 
 
+## Q25-Zenodo - Awareness and use of Zenodo 
+ 
+```{r question_25_zenodo, echo=T, eval=T, message=FALSE, warning=FALSE, results=FALSE} 
+ 
+# This is a single choice question without an "other" 
+# with responses only in the PigWeb survey. 
+ 
+pigw21Q25_Zenodo = as.data.frame(dplyr::select(pigw21, 91)) 
+ 
+Q25_Zenodo = 'Are you aware of any of the following data or code sharing platforms? - Zenodo' 
+ 
+colnames(pigw21Q25_Zenodo) = c('Q25_Zenodo') 
+ 
+Q25_Zenodo_levels = c("No", 
+                      "Yes but I have not used it", 
+                      "Yes and I have used it") 
+ 
+Q25_Zenodo_data = format_question_single_choice_pigweb( 
+  pigw21Q25_Zenodo$Q25_Zenodo, 
+  Q25_Zenodo_levels 
+) 
+ 
+plot_single_choice( 
+  Q25_Zenodo_data, 
+  Q25_Zenodo_levels, 
+  Q25_Zenodo, 
+  "Answers" 
+) 
+```
+
+
+
+
 # Question 33
 
 **How would you rate the importance of the following with reference to determining the quality of an openly accessible data set? The data are available from a publicly available repository.**
