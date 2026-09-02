@@ -16,4 +16,3 @@ Anyone wishing to contribute to the analysis of the data is warmly welcome to al
 
 The PIGWEB project has received funding from European Union’s Horizon 2020 research and innovation program under Grant Agreement No 101004770.
 
-edited by Nishara
