@@ -12,6 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # About this report
+
 This report is designed with two purposes in mind.
 
 If read directly without opening the code chunks the report provides a comparative analysis of the State of Open Data survey 2021 published by Digital Science (<https://doi.org/10.6084/m9.figshare.17081231>) and a community specific survey to survey the State of Open Data and attitudes towards FAIR data policies conducted by the Pigweb consortium. The Pigweb study is built on the template provided by the State of Open Data Survey to maximize the comparability between the pig research community participating in Pigweb and the much larger study conducted by Digital Science and Springer Nature. It does however also contain some specific questions regarding experiences with infrastructure and services supporting FAIR data.
@@ -976,7 +977,71 @@ plot_multiple_choice(Q22_data,
                      "Response")
 ```
 
+## Q25-GitHub - Awareness and use of GitHub
+
+```{r question_25_github, echo=T, eval=T, message=FALSE, warning=FALSE, results=FALSE}
+
+# This is a single choice question without an "other"
+# with responses only in the PigWeb survey.
+
+pigw21Q25_GitHub = as.data.frame(dplyr::select(pigw21, 90))
+
+Q25_GitHub = 'Are you aware of any of the following data or code sharing platforms? - GitHub'
+
+colnames(pigw21Q25_GitHub) = c('Q25_GitHub')
+
+Q25_GitHub_levels = c("No",
+                      "Yes but I have not used it",
+                      "Yes and I have used it")
+
+Q25_GitHub_data = format_question_single_choice_pigweb(
+  pigw21Q25_GitHub$Q25_GitHub,
+  Q25_GitHub_levels
+)
+
+plot_single_choice(
+  Q25_GitHub_data,
+  Q25_GitHub_levels,
+  Q25_GitHub,
+  "Answers"
+)
+```
+
+
+
+## Q25-Zenodo - Awareness and use of Zenodo 
+ 
+```{r question_25_zenodo, echo=T, eval=T, message=FALSE, warning=FALSE, results=FALSE} 
+ 
+# This is a single choice question without an "other" 
+# with responses only in the PigWeb survey. 
+ 
+pigw21Q25_Zenodo = as.data.frame(dplyr::select(pigw21, 91)) 
+ 
+Q25_Zenodo = 'Are you aware of any of the following data or code sharing platforms? - Zenodo' 
+ 
+colnames(pigw21Q25_Zenodo) = c('Q25_Zenodo') 
+ 
+Q25_Zenodo_levels = c("No", 
+                      "Yes but I have not used it", 
+                      "Yes and I have used it") 
+ 
+Q25_Zenodo_data = format_question_single_choice_pigweb( 
+  pigw21Q25_Zenodo$Q25_Zenodo, 
+  Q25_Zenodo_levels 
+) 
+ 
+plot_single_choice( 
+  Q25_Zenodo_data, 
+  Q25_Zenodo_levels, 
+  Q25_Zenodo, 
+  "Answers" 
+) 
+```
+
+
 # Question 26
+
 ```{r question_26, echo=T, eval = T, message=FALSE, warning=FALSE, results=FALSE, fig.cap="Figure 26"}
 
 #Creating data sets for Q26/Isolating the responses from Q26
@@ -1033,7 +1098,6 @@ ggplot(data = merged_Q26, mapping = aes(x = Response, y = Percent, fill = Respon
 
 
 ```
-
 
 # Question 27
 
@@ -1252,6 +1316,7 @@ plot_single_choice(Q31_data, #Plotting the responses
 ```
 
 # Question 34
+
 ```{r question_Q34, echo=T, eval = T, message=FALSE, warning=FALSE, results=FALSE, fig.cap="Figure Q34"}
 pigw21Q34 = as.data.frame(dplyr::select(pigw21, 126))
 pigw21Pile = cbind(pigw21Pile, pigw21Q34)
@@ -1346,10 +1411,10 @@ plot_single_choice(Q45_data, #Plotting the responses
                    Q45,
                    "Response")
 ```
+
 #Léonie assignement
 
-"Questions.about.your.usage.of.other.data.sources
-How.would.you.rate.the.importance.of.each.of.the.following.with.reference.to.determining.the.quality.of.an.openly.accessible.data.set..Use.the.arrows.below.to.go.to.next.statement..there.is.a.total.of.12.statements.to.respond.to.here.....The.data.are.new..e.g..released.within.the.last.year."
+"Questions.about.your.usage.of.other.data.sources How.would.you.rate.the.importance.of.each.of.the.following.with.reference.to.determining.the.quality.of.an.openly.accessible.data.set..Use.the.arrows.below.to.go.to.next.statement..there.is.a.total.of.12.statements.to.respond.to.here.....The.data.are.new..e.g..released.within.the.last.year."
 
 ```{r Leonie question_1, echo=T, eval = T, message=FALSE, warning=FALSE, results=FALSE}
 #Creating data sets for column 125 and 128
@@ -1377,6 +1442,7 @@ plot_single_choice(Qleonie1_data, #Plotting the responses
                   Qleonie1,
                    "Response")
 ```
+
 About.your.research.data...Are.you.aware.of.any.of.the.following.data.or.code.sharing.platforms....EOSC..European.Open.Science.Cloud.
 
 ```{r Leonie question_2, echo=T, eval = T, message=FALSE, warning=FALSE, results=FALSE}
@@ -1403,7 +1469,6 @@ plot_single_choice(Qleonie2_data,
 # Question 32
 
 **Would you like more guidance on how to comply with the policies of any of the below on making your research data openly available?**
-
 
 ```{r question_32, echo=T, eval = T, message=FALSE, warning=FALSE, results=FALSE, fig.cap="Figure 32"}
 
@@ -1439,76 +1504,10 @@ plot_multiple_choice(Q32_data,
                      "Response")
 ```
 
-
-## Q25-GitHub - Awareness and use of GitHub
-
-```{r question_25_github, echo=T, eval=T, message=FALSE, warning=FALSE, results=FALSE}
-
-# This is a single choice question without an "other"
-# with responses only in the PigWeb survey.
-
-pigw21Q25_GitHub = as.data.frame(dplyr::select(pigw21, 90))
-
-Q25_GitHub = 'Are you aware of any of the following data or code sharing platforms? - GitHub'
-
-colnames(pigw21Q25_GitHub) = c('Q25_GitHub')
-
-Q25_GitHub_levels = c("No",
-                      "Yes but I have not used it",
-                      "Yes and I have used it")
-
-Q25_GitHub_data = format_question_single_choice_pigweb(
-  pigw21Q25_GitHub$Q25_GitHub,
-  Q25_GitHub_levels
-)
-
-plot_single_choice(
-  Q25_GitHub_data,
-  Q25_GitHub_levels,
-  Q25_GitHub,
-  "Answers"
-)
-```
-
-
-
-## Q25-Zenodo - Awareness and use of Zenodo 
- 
-```{r question_25_zenodo, echo=T, eval=T, message=FALSE, warning=FALSE, results=FALSE} 
- 
-# This is a single choice question without an "other" 
-# with responses only in the PigWeb survey. 
- 
-pigw21Q25_Zenodo = as.data.frame(dplyr::select(pigw21, 91)) 
- 
-Q25_Zenodo = 'Are you aware of any of the following data or code sharing platforms? - Zenodo' 
- 
-colnames(pigw21Q25_Zenodo) = c('Q25_Zenodo') 
- 
-Q25_Zenodo_levels = c("No", 
-                      "Yes but I have not used it", 
-                      "Yes and I have used it") 
- 
-Q25_Zenodo_data = format_question_single_choice_pigweb( 
-  pigw21Q25_Zenodo$Q25_Zenodo, 
-  Q25_Zenodo_levels 
-) 
- 
-plot_single_choice( 
-  Q25_Zenodo_data, 
-  Q25_Zenodo_levels, 
-  Q25_Zenodo, 
-  "Answers" 
-) 
-```
-
-
-
-
 # Question 33
 
 **How would you rate the importance of the following with reference to determining the quality of an openly accessible data set? The data are available from a publicly available repository.**
-  
+
 ```{r question_33, echo=T, eval = T, message=FALSE, warning=FALSE, results=T, fig.cap="Figure 33"}
 
 # Answered by Yishu
@@ -1558,6 +1557,84 @@ SvPQ33 = ks.test(Q33_data$response[Q33_data$survey == "SoD"],
                  ifresult = FALSE) #Kolmogorov-Smirnov test for Q33
 SvPQ33
 ```
+
+
+```{r question_37, echo=T, eval = T, message=FALSE, warning=FALSE, results=T, fig.cap="Figure 33"}
+
+# Answered by Marios
+sod21
+pigw21
+colnames(sod21)[130]
+colnames(pigw21)[127]
+#Keep only the Q37
+sod21Q37 = as.data.frame(dplyr::select(sod21, 130))
+sod21Pile = cbind(sod21Pile, sod21Q37)
+
+pigw21Q37 = as.data.frame(dplyr::select(pigw21, 127))
+pigw21Pile = cbind(pigw21Pile, pigw21Q37)
+
+#Setting columnnames and question 37
+colnames(sod21Q37) = c('Q37')
+colnames(pigw21Q37) = c('Q37')
+
+Q37 = 'How would you rate the importance of the following when determining the quality of an openly accessible data set: The data come from a known source (e.g. familiar institution or academic)?'
+
+#Setting the answer options to Q37.
+Q37_levels = c("Extremely important", "Somewhat important",
+               "Moderately important", "Slightly important",
+               "Not at all important", "I don't know")
+
+Q37_data = format_question_likert(sod21Q37$Q37, #Making the answers to Q37 in the two questionnaires comparable, merging them to one data frame 
+                                  pigw21Q37$Q37,
+                                  Q37_levels)
+
+plot_likert(Q37_data,  #Plotting the Level of importance
+            Q37_levels,
+            Q37,
+            "Level of importance")
+```
+
+```{r question_38, echo=T, eval = T, message=FALSE, warning=FALSE, results=T, fig.cap="Figure 33"}
+
+# Answered by Marios
+sod21
+pigw21
+colnames(sod21)[131]
+colnames(pigw21)[128]
+#Keep only the Q38
+sod21Q38 = as.data.frame(dplyr::select(sod21, 131))
+sod21Pile = cbind(sod21Pile, sod21Q38)
+
+pigw21Q38 = as.data.frame(dplyr::select(pigw21, 128))
+pigw21Pile = cbind(pigw21Pile, pigw21Q38)
+
+#Setting columnnames and question 38
+colnames(sod21Q38) = c('Q38')
+colnames(pigw21Q38) = c('Q38')
+
+Q38 = 'How would you rate the importance of the following when determining the quality of an openly accessible data set: The data are in a repository that I know checks/curates the data?'
+
+# Setting the answer options to Q38
+Q38_levels = c("Extremely important", "Somewhat important",
+               "Moderately important", "Slightly important",
+               "Not at all important", "I don't know")
+
+
+# The PigWeb scale is correctly formatted for this question, thus no need to reverse the question.
+
+Q38_data = format_question_likert(
+  sod21Q38$Q38,
+  pigw21Q38$Q38,
+  Q38_levels)
+
+
+plot_likert(
+  Q38_data,
+  Q38_levels,
+  Q38,
+  "Level of importance")
+```
+
 
 # Question 55
 
@@ -1753,5 +1830,3 @@ plot_likert(Q64_data,
             "Level of agreement")
 
 ```
-
-
