@@ -1493,3 +1493,90 @@ SvPQ33 = ks.test(Q33_data$response[Q33_data$survey == "SoD"],
                  ifresult = FALSE) #Kolmogorov-Smirnov test for Q33
 SvPQ33
 ```
+
+# Question 55
+
+**Were you able to get access to the data set?**
+
+```{r question_55, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE, results = FALSE, fig.cap = "Figure 55"}
+# Answered by Awa
+
+# Double check that the columns correspond to the right question:
+# colnames(sod21)[141]
+# colnames(pigw21)[165]
+
+
+# Extract the relevant columns
+sod21Q55 <- as.data.frame(dplyr::select(sod21, 141))
+pigw21Q55 <- as.data.frame(dplyr::select(pigw21, 165))
+
+
+# Name the columns and store the question text
+colnames(sod21Q55) <- "Q55"
+colnames(pigw21Q55) <- "Q55"
+Q55 <- "Were you able to get access to the data set?"
+
+
+# Define the response categories
+# PigWeb codes confirmed against the questionnaire (Q4.8):
+# 1 = Yes, the complete data set
+# 2 = Yes, part of the data set
+# 3 = No, I was unable to access the data set
+Q55_levels <- c("Yes, the complete data set",
+               "Yes, part of the data set",
+               "No, I was unable to access the data set")
+
+
+# Blank responses are treated as missing by the formatting function.
+# Format the data for both surveys
+Q55_data <- format_question_single_choice(sod21Q55$Q55,
+                                          pigw21Q55$Q55,
+                                          Q55_levels)
+
+
+# Plot the results
+plot_single_choice(Q55_data,
+                   Q55_levels,
+                   Q55,
+                   "Response")
+```
+
+### Question 56
+
+**Were you able to reuse the dataset for your intended purpose?**
+
+```{r question_56, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE, results = FALSE, fig.cap = "Figure 56"}
+# Answered by Awa
+
+# Double check that the columns correspond to the right question:
+# colnames(sod21)[152]
+# colnames(pigw21)[166]
+
+
+# Extract the relevant columns
+sod21Q56 <- as.data.frame(dplyr::select(sod21, 152))
+pigw21Q56 <- as.data.frame(dplyr::select(pigw21, 166))
+
+
+# Name the columns and store the question text
+colnames(sod21Q56) <- "Q56"
+colnames(pigw21Q56) <- "Q56"
+Q56 <- "Were you able to reuse the dataset for your intended purpose?"
+
+
+# Define the response categories
+# PigWeb codes confirmed against the questionnaire (Q4.11): 1 = Yes, 2 = No
+Q56_levels <- c("Yes", "No")
+
+
+# Blank responses indicate that the question was not reached and are treated as missing.
+# Format the data for both surveys
+Q56_data <- format_question_single_choice(sod21Q56$Q56,
+                                          pigw21Q56$Q56,
+                                          Q56_levels)
+# Plot the results
+plot_single_choice(Q56_data,
+                   Q56_levels,
+                   Q56,
+                   "Response")
+```
