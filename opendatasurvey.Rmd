@@ -1440,6 +1440,71 @@ plot_multiple_choice(Q32_data,
 ```
 
 
+## Q25-GitHub - Awareness and use of GitHub
+
+```{r question_25_github, echo=T, eval=T, message=FALSE, warning=FALSE, results=FALSE}
+
+# This is a single choice question without an "other"
+# with responses only in the PigWeb survey.
+
+pigw21Q25_GitHub = as.data.frame(dplyr::select(pigw21, 90))
+
+Q25_GitHub = 'Are you aware of any of the following data or code sharing platforms? - GitHub'
+
+colnames(pigw21Q25_GitHub) = c('Q25_GitHub')
+
+Q25_GitHub_levels = c("No",
+                      "Yes but I have not used it",
+                      "Yes and I have used it")
+
+Q25_GitHub_data = format_question_single_choice_pigweb(
+  pigw21Q25_GitHub$Q25_GitHub,
+  Q25_GitHub_levels
+)
+
+plot_single_choice(
+  Q25_GitHub_data,
+  Q25_GitHub_levels,
+  Q25_GitHub,
+  "Answers"
+)
+```
+
+
+
+## Q25-Zenodo - Awareness and use of Zenodo 
+ 
+```{r question_25_zenodo, echo=T, eval=T, message=FALSE, warning=FALSE, results=FALSE} 
+ 
+# This is a single choice question without an "other" 
+# with responses only in the PigWeb survey. 
+ 
+pigw21Q25_Zenodo = as.data.frame(dplyr::select(pigw21, 91)) 
+ 
+Q25_Zenodo = 'Are you aware of any of the following data or code sharing platforms? - Zenodo' 
+ 
+colnames(pigw21Q25_Zenodo) = c('Q25_Zenodo') 
+ 
+Q25_Zenodo_levels = c("No", 
+                      "Yes but I have not used it", 
+                      "Yes and I have used it") 
+ 
+Q25_Zenodo_data = format_question_single_choice_pigweb( 
+  pigw21Q25_Zenodo$Q25_Zenodo, 
+  Q25_Zenodo_levels 
+) 
+ 
+plot_single_choice( 
+  Q25_Zenodo_data, 
+  Q25_Zenodo_levels, 
+  Q25_Zenodo, 
+  "Answers" 
+) 
+```
+
+
+
+
 # Question 33
 
 **How would you rate the importance of the following with reference to determining the quality of an openly accessible data set? The data are available from a publicly available repository.**
@@ -1580,3 +1645,113 @@ plot_single_choice(Q56_data,
                    Q56,
                    "Response")
 ```
+# Question 59
+
+**Do you think researchers currently get sufficient credit for sharing data?**
+
+```{r question_59, echo=T, eval = T, message=FALSE, warning=FALSE, results=FALSE, fig.cap="Figure 59"}
+
+# single choice categorical question - uses the single choice functions
+
+# index check
+# colnames(pigw21)[169]
+# colnames(sod21)[160]
+
+# creating dataframes of answers for both surveys:
+# extracting answer columns and adding the questions to the pile
+pigw21Q59 = as.data.frame(dplyr::select(pigw21, 169))
+pigw21Pile = cbind(pigw21Pile, pigw21Q59)
+
+sod21Q59 = as.data.frame(dplyr::select(sod21, 160))
+sod21Pile = cbind(sod21Pile, sod21Q59)
+
+# setting column names and storing the question text
+colnames(pigw21Q59) = c('Q59')
+colnames(sod21Q59) = c('Q59')
+Q59 = 'Do you think researchers currently get sufficient credit for sharing data?'
+
+# recoding decisions for the different wording: 
+# "Not Sure" was folded into "I don't know". "No" was set to NA as there is no indication whether it refers to "No, too little" or "no, too much". "" was also set to NA.
+
+sod21Q59$Q59[sod21Q59$Q59 == "Not sure"] <- "I don't know"
+sod21Q59$Q59[sod21Q59$Q59 == "No"] <- NA
+sod21Q59$Q59[sod21Q59$Q59 == ""] <- NA
+
+# answer options in the order listed by the pigweb questionnaire because format_question_single_choice() has the SoD text by position while the pigweb 1-4 answers are used as they are:
+Q59_levels = c("Yes",
+               "No, they receive too much credit",
+               "No, they receive too little credit",
+               "I don't know")
+
+# combining the two surveys
+Q59_data = format_question_single_choice(sod21Q59$Q59,
+                                         pigw21Q59$Q59,
+                                         Q59_levels)
+
+# plot 
+plot_single_choice(Q59_data, # dataframe
+                   Q59_levels, # answer options
+                   Q59, # title 
+                   "Response") + 
+  ylab("Percent of respondents")
+
+```
+
+# Question 64
+
+**How supportive would you be of a national mandate for making research data openly available?**
+
+```{r question_64, echo=T, eval = T, message=FALSE, warning=FALSE, results=FALSE, fig.cap="Figure 64"}
+
+# five-level ordinal/Likert question from strongly oppose to strongly support. 
+# uses likert scale functions
+
+# index check
+# colnames(pigw21)[201]
+# colnames(sod21)[193]
+
+# creating dataframes of answers for both surveys:
+# extracting answer columns and adding the questions to the pile
+pigw21Q64 = as.data.frame(dplyr::select(pigw21, 201))
+pigw21Pile = cbind(pigw21Pile, pigw21Q64)
+
+sod21Q64 = as.data.frame(dplyr::select(sod21, 193))
+sod21Pile = cbind(sod21Pile, sod21Q64)
+
+# setting column names and storing the question text
+colnames(pigw21Q64) = c('Q64')
+colnames(sod21Q64) = c('Q64')
+Q64 = 'How supportive would you be of a national mandate for making research data openly available?'
+
+# there are two different strings (Strongly Support and Strongly support/xa0) that mean the same thing
+# however, trimws() alone will not merge them as \xa0 is not a plain space. 
+sod21Q64$Q64 <- gsub("\xa0", "", sod21Q64$Q64, useBytes = TRUE)
+sod21Q64$Q64 <- trimws(sod21Q64$Q64)
+
+# setting "" to NAs
+sod21Q64$Q64[sod21Q64$Q64 == ""] <- NA
+
+# ordering levels as indicated in the instructions: 
+Q64_levels = c("Strongly oppose",
+               "Somewhat oppose",
+               "Neutral",
+               "Somewhat support",
+               "Strongly support")
+
+# on the questionnaire the options are listed in the opposite direction (e.g. 1 = "Strongly Support", 5 = "strongly oppose")
+# format_question_likert() has the SoD text by the position in the Q64_levels, so the pigweb codes must be reversed:
+pigw21Q64$Q64 = reverseCode(pigw21Q64$Q64)
+
+# combining the two surveys
+Q64_data = format_question_likert(sod21Q64$Q64,
+                                  pigw21Q64$Q64,
+                                  Q64_levels)
+# plot 
+plot_likert(Q64_data,
+            Q64_levels,
+            Q64,
+            "Level of agreement")
+
+```
+
+
