@@ -1546,4 +1546,61 @@ plot_single_choice(Q59_data, # dataframe
 
 ```
 
+# Question 64
+
+**How supportive would you be of a national mandate for making research data openly available?**
+
+```{r question_64, echo=T, eval = T, message=FALSE, warning=FALSE, results=FALSE, fig.cap="Figure 64"}
+
+# five-level ordinal/Likert question from strongly oppose to strongly support. 
+# uses likert scale functions
+
+# index check
+# colnames(pigw21)[201]
+# colnames(sod21)[193]
+
+# creating dataframes of answers for both surveys:
+# extracting answer columns and adding the questions to the pile
+pigw21Q64 = as.data.frame(dplyr::select(pigw21, 201))
+pigw21Pile = cbind(pigw21Pile, pigw21Q64)
+
+sod21Q64 = as.data.frame(dplyr::select(sod21, 193))
+sod21Pile = cbind(sod21Pile, sod21Q64)
+
+# setting column names and storing the question text
+colnames(pigw21Q64) = c('Q64')
+colnames(sod21Q64) = c('Q64')
+Q64 = 'How supportive would you be of a national mandate for making research data openly available?'
+
+# there are two different strings (Strongly Support and Strongly support/xa0) that mean the same thing
+# however, trimws() alone will not merge them as \xa0 is not a plain space. 
+sod21Q64$Q64 <- gsub("\xa0", "", sod21Q64$Q64, useBytes = TRUE)
+sod21Q64$Q64 <- trimws(sod21Q64$Q64)
+
+# setting "" to NAs
+sod21Q64$Q64[sod21Q64$Q64 == ""] <- NA
+
+# ordering levels as indicated in the instructions: 
+Q64_levels = c("Strongly oppose",
+               "Somewhat oppose",
+               "Neutral",
+               "Somewhat support",
+               "Strongly support")
+
+# on the questionnaire the options are listed in the opposite direction (e.g. 1 = "Strongly Support", 5 = "strongly oppose")
+# format_question_likert() has the SoD text by the position in the Q64_levels, so the pigweb codes must be reversed:
+pigw21Q64$Q64 = reverseCode(pigw21Q64$Q64)
+
+# combining the two surveys
+Q64_data = format_question_likert(sod21Q64$Q64,
+                                  pigw21Q64$Q64,
+                                  Q64_levels)
+# plot 
+plot_likert(Q64_data,
+            Q64_levels,
+            Q64,
+            "Level of agreement")
+
+```
+
 
