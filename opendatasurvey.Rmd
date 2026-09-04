@@ -1493,3 +1493,57 @@ SvPQ33 = ks.test(Q33_data$response[Q33_data$survey == "SoD"],
                  ifresult = FALSE) #Kolmogorov-Smirnov test for Q33
 SvPQ33
 ```
+
+# Question 59
+
+**Do you think researchers currently get sufficient credit for sharing data?**
+
+```{r question_59, echo=T, eval = T, message=FALSE, warning=FALSE, results=FALSE, fig.cap="Figure 59"}
+
+# single choice categorical question - uses the single choice functions
+
+# index check
+# colnames(pigw21)[169]
+# colnames(sod21)[160]
+
+# creating dataframes of answers for both surveys:
+# extracting answer columns and adding the questions to the pile
+pigw21Q59 = as.data.frame(dplyr::select(pigw21, 169))
+pigw21Pile = cbind(pigw21Pile, pigw21Q59)
+
+sod21Q59 = as.data.frame(dplyr::select(sod21, 160))
+sod21Pile = cbind(sod21Pile, sod21Q59)
+
+# setting column names and storing the question text
+colnames(pigw21Q59) = c('Q59')
+colnames(sod21Q59) = c('Q59')
+Q59 = 'Do you think researchers currently get sufficient credit for sharing data?'
+
+# recoding decisions for the different wording: 
+# "Not Sure" was folded into "I don't know". "No" was set to NA as there is no indication whether it refers to "No, too little" or "no, too much". "" was also set to NA.
+
+sod21Q59$Q59[sod21Q59$Q59 == "Not sure"] <- "I don't know"
+sod21Q59$Q59[sod21Q59$Q59 == "No"] <- NA
+sod21Q59$Q59[sod21Q59$Q59 == ""] <- NA
+
+# answer options in the order listed by the pigweb questionnaire because format_question_single_choice() has the SoD text by position while the pigweb 1-4 answers are used as they are:
+Q59_levels = c("Yes",
+               "No, they receive too much credit",
+               "No, they receive too little credit",
+               "I don't know")
+
+# combining the two surveys
+Q59_data = format_question_single_choice(sod21Q59$Q59,
+                                         pigw21Q59$Q59,
+                                         Q59_levels)
+
+# plot 
+plot_single_choice(Q59_data, # dataframe
+                   Q59_levels, # answer options
+                   Q59, # title 
+                   "Response") + 
+  ylab("Percent of respondents")
+
+```
+
+
