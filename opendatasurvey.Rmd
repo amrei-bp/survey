@@ -1557,6 +1557,115 @@ SvPQ33 = ks.test(Q33_data$response[Q33_data$survey == "SoD"],
                  ifresult = FALSE) #Kolmogorov-Smirnov test for Q33
 SvPQ33
 ```
+# Question 32
+
+> **Since January 2020, have you reused any of the below as part of your research?**
+>
+> Please select all that apply:
+>
+> - Your own data
+> - Openly accessible data shared by other research groups
+> - Neither of the above
+>
+> [**Note**: by 'reuse' we mean undertaking new analysis of a pre-existing data set, either on its own or to add to another data set, to answer a different research question to that which the collection of data was originally intended]
+
+```{r question_32.1, echo=T, eval = T, message=FALSE, warning=FALSE, results=FALSE, fig.cap="Figure 32.1", out.width="50%"}
+
+# Answered by Lina
+
+# This is a multiple-choice question stored as one indicator column per response option. 
+
+# Checking that index corresponds to right question
+# colnames(sod21)[101:103] 
+# colnames(pigw21)[115:117]
+
+# Giving the answer options to Question 32 - the ticks on the x axis when plotting
+Q32.1_levels = c("Your own data",
+              "Openly accessible data shared by other research groups",
+              "Neither of the above")
+
+# Create data frames of answers from both surveys - by extracting the multiple columns of the respective data frame that contains the answers
+pigw21Q32.1 <- as.data.frame(dplyr::select(pigw21, 115:117))
+sod21Q32.1 = as.data.frame(dplyr::select(sod21, 101:103))
+
+# Checking if there are any individuals with no answer to the question - if either is TRUE add a "no answer" level
+# all(rowSums(is.na(pigw21Q32.1)) == ncol(pigw21Q32.1))
+# all(rowSums(sod21Q32.1 == 0) == ncol(sod21Q32.1))
+
+# Storing the question - later used to give our plot a title 
+Q32.1 <- 'Since January 2020, have you reused any of the below as part of your research?'
+
+# Creating a data frame containing percentages for each option for plotting multiple-choice questions: arguments in this order:
+# 1. sod_data (represent columns with each available answers)
+# 2. pigweb_data (represent columns with each available answers)
+# 3. levels is a vector of the options
+Q32.1_data <- format_question_multiple_choice(sod21Q32.1,
+                                          pigw21Q32.1,
+                                          Q32.1_levels)
+
+# Plotting a bar chart of percentages for a multiple choice questions: arguments in this order:
+# 1. Data frame produced by format_question_multiple_choice
+# 2. Vector of the answer options
+# 3. Character string of plot title - Q32 question
+# 4. Character string for the x-axis label (not a separate vector, write text below)
+plot_multiple_choice(Q32.1_data,
+                     Q32.1_levels,
+                     Q32.1,
+                     "Response")
+
+```
+
+# Question 33
+
+> **How do you think the data shared by others has or could benefit you?**
+>
+> Please select all that apply:
+>
+> - Fosters collaboration
+> - Validates findings
+> - Complements data
+> - Avoids duplication
+> - No benefit
+> - Other (please specify)
+
+```{r question_33.1, echo=T, eval = T, message=FALSE, warning=FALSE, results=FALSE, fig.cap="Figure 33.1", out.width="50%"}
+
+# Answered by Lina
+
+# This is a multiple-choice question stored as one indicator column per response option.
+
+#Checking that index corresponds to right question 
+# colnames(sod21)[106:112] 
+# colnames(pigw21)[118:124]
+
+# Giving the answer options to Question 33 - the ticks on the x axis when plotting
+Q33.1_levels = c("Fosters collaboration", "Validates findings", "Complements data", "Avoids duplication", "No benefit", "Other")
+
+# Create data frames of answers from both surveys - by extracting the multiple columns of the respective data frame that contains the answers
+
+pigw21Q33.1 <- as.data.frame(dplyr::select(pigw21, 118:123)) 
+sod21Q33.1 = as.data.frame(dplyr::select(sod21, 106:109,111,110))
+
+# Checking if there are any individuals with no answer to the question - if either is TRUE add a "no answer" level
+# all(rowSums(is.na(pigw21Q33.1)) == ncol(pigw21Q33.1))
+# all(rowSums(sod21Q33.1 == 0) == ncol(sod21Q33.1))
+
+# Storing the question - later used to give our plot a title
+Q33.1 <- 'Since January 2020, have you reused any of the below as part of your research?'
+
+# Creating a data frame containing percentages for each option for plotting multiple-choice questions: arguments in this order:
+# 1. sod_data (represent columns with each available answers)
+# 2. pigweb_data (represent columns with each available answers)
+# 3. levels is a vector of the options
+Q33.1_data <- format_question_multiple_choice(sod21Q33.1, pigw21Q33.1, Q33.1_levels)
+
+# Plotting a bar chart of percentages for a multiple choice questions: arguments in this order:
+# 1. Data frame produced by format_question_multiple_choice
+# 2. Vector of the answer options
+# 3. Character string of plot title - Q32 question
+# 4. Character string for the x-axis label (not a separate vector, write text below)
+
+plot_multiple_choice(Q33.1_data, Q33.1_levels, Q33.1, "Response")
 
 
 ```{r question_37, echo=T, eval = T, message=FALSE, warning=FALSE, results=T, fig.cap="Figure 33"}
